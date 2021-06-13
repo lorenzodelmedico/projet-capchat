@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <% include header%>
+    <div class="container">
+      <!-- affichage de l'indive -->
+      <div class="d-flex flex-row">
+        <p>Selectionne une image qui correspond a :</p>
+        <p class="mx-2" id="indice"><strong><%= indice %></strong></p>
+      </div>
+      <!-- affichage des images -->
+      <div class="row">
+        <div class="col">
+          <div class="row w-75">
+            <% image.forEach( (image) => {%>
+            <div class="d-grid col-6 mx-auto mb-2">
+              <img
+                src="<%= image%>"
+                id="<%= image%>"
+                width="150"
+                onClick="verify('<%= image %>')"
+              />
+            </div>
+            <%})%>
+          </div>
+        </div>
+        <div class="col d-flex justify-content-center align-items-center">
+          <!-- affichage du timer -->
+          <div>
+            <div class="timer" id="timer"></div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="d-flex justify-content-center align-items-center">
+          <button type="submit" class="btn btn-primary">VERIFIER</button>
+        </div> -->
+      <script>
+        var timeLeft = 30;
+        var elem = document.getElementById("timer");
+        var timerId = setInterval(countdown, 1000);
+        function countdown() {
+          if (timeLeft == 0) {
+            clearTimeout(timerId);
+            elem.innerHTML = "Temps écoulé ! Vous êtes un robot";
+            location.reload(true);
+          } else {
+            elem.innerHTML = timeLeft + " seconds remaining";
+            timeLeft--;
+          }
+        }
+        function verify(image) {
+          console.log(image);
+          $.ajax({
+            url: "/verify",
+            type: "POST",
+            data: {
+              image_selected: image,
+            },
+            dataType: "json",
+            // success: function (result) {
+
+            //   console.log(result)
+            // },
+            error: function (xhr, ajaxOptions, thrownError) {
+              console.log(xhr);
+              if (xhr.status === 200) {
+                clearTimeout(timerId);
+                document.getElementById("timer").innerHTML =
+                  "Félication ! Vous avez trouvé la bonne réponse";
+                document.getElementById("timer").classList.remove("timer");
+                document.getElementById("timer").classList.add("success");
+              } else {
+                location.reload(true);
+              }
+            },
+          });
+        }
+      </script>
+    </div>
+  </body>
+</html>
