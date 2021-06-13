@@ -11,7 +11,11 @@
     ></script>
   </head>
   <body>
-    <% include header%>
+    <% if (user!=null) { %>
+      <% include header-connected%>
+      <%} else { %>
+        <% include header%>
+      <% } %>
     <div class="container">
       <!-- affichage de l'indive -->
       <div class="d-flex flex-row">
