@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>ExpressJs upload images</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <style>
+      div.preview-images > img {
+        width: 30%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card d-flex align-items-center justify-content-center">
+      <div class="card-body">
+        <div class="row">
+          <div
+            class="
+              col-sm-8
+              mt-3
+              d-flex
+              flex-column
+              align-items-center
+              justify-content-center
+            "
+          >
+            <h4>Express.js upload images</h4>
+            <!-- <form
+              class="mt-4"
+              action="/upload"
+              method="POST"
+              enctype="multipart/form-data"
+            > -->
+            <div class="input-group">
+              <div class="custom-file">
+                <input
+                  type="file"
+                  name="file"
+                  id="input-files"
+                  class="custom-file-input"
+                  accept="image/*"
+                />
+              </div>
+            </div>
+            <div class="d-flex justify-content-evenly align-items center">
+              <button id="no-time" type="submit" class="btn btn-primary mt-2">
+                <h5>
+                  Importer
+                </h5>
+              </button>
+              <button class="btn btn-warning mx-4 mt-2" id="capchat">
+                <h5>
+                  CapChat
+                </h5>
+            </button>
+            </div>
+            
+           
+            <p id="text-info">
+
+            </p>
+            <!-- </form> -->
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="preview-images"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        let imagesPreview = function (input, placeToInsertImagePreview) {
+          if (input.files) {
+            let filesAmount = input.files.length;
+            for (i = 0; i < filesAmount; i++) {
+              let reader = new FileReader();
+              reader.onload = function (event) {
+                $($.parseHTML("<img>"))
+                  .attr("src", event.target.result)
+                  .appendTo(placeToInsertImagePreview);
+              };
+              reader.readAsDataURL(input.files[i]);
+            }
+          }
+        };
+        $("#input-files").on("change", function () {
+          imagesPreview(this, "div.preview-images");
+        });
+      });
+      const submit = document.getElementById("no-time");
+      submit.addEventListener("click", function () {
+        document.getElementById("text-info").innerHTML = "La fonctionnalité n'est pas opérationnel !";
+      });
+      const capchat = document.getElementById("capchat");
+      capchat.addEventListener("click", function () {
+        // console.log(window.location.search);
+        const urlParams = new URLSearchParams(window.location.search);
+        // console.log(urlParams.get('username'))
+        const href = '/?user='+urlParams.get('user')
+        // console.log(href)
+        window.location.href = href
+      });
+    </script>
+  </body>
+</html>

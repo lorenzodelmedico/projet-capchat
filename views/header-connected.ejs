@@ -1,8 +1,13 @@
-<div class="d-flex flex-column align-items-end me-4">
+<div class="d-flex flex-column align-items-center justify-content-center me-4 mb-2">
     <div>
-        <h3><% user %> </h3>
+        <h3><%= user %> </h3>
         <h4> Connexion Réussie </h4>
     </div>
+    <a href="/users/upload?user=<%= user %>">
+        <button class="btn btn-warning">
+            Upload des images
+        </button>
+    </a>
     <form action="/users/logout" method="post">
         <button type="submit" class="btn btn-primary mt-2">Déconnexion</button>
     </form>

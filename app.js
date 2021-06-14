@@ -55,26 +55,6 @@ app.use(
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
-//authentification a une route privee en passant le token en QUERYPARAMS
-app.use("/privateRoute", passport.authenticate('jwt', {session:false}, privateRoute));
-
-
-//strategy pour le token
-passport.use('jwt',
-  new strategyToken.Strategy(
-    {
-      secretOrKey : 'xxzaehoinnkiazj75za7*2s7*da6z9d7dw5',
-      jwtFromRequest: strategyToken.ExtractJwt.fromUrlQueryParameter('jwt')
-    },
-    async(token, done) => {
-      try {
-        return done(null, token.user)
-      } catch (error) {
-        done (error)
-      }
-    }
-  )
-)
 
 
 app.use((req, res, next) => {

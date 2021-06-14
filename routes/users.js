@@ -59,6 +59,14 @@ const User = mongoose.model("User", UserSchema);
 /* GET create account*/
 router.get("/createaccount", userControllers.createAccount);
 
+
+/* GET signin account*/
+router.get("/signin", userControllers.signin);
+
+/**GET upload image */
+router.get("/upload", userControllers.uploadImage);
+ 
+  
 // gestion de l'authentification
 
 // creation de compte
@@ -152,12 +160,11 @@ router.post(
         }
         req.login(user, { session:false}, async error => {
           if(error) return next(error)
-          const body = {id: user._id, email:user.email}
-          const payload = {id: user._id}
+          const body = {id: user._id, email:user.username}
           const token = jwt.sign({user: body}, 'xxzaehoinnkiazj75za7*2s7*da6z9d7dw5');
           // res.redirect('/privateRoute?jwt='+token)
           // alert("token pour accès privé = "+token)
-          res.redirect('/?user='+user.email)
+          res.redirect('/users/upload?token='+token+'&user='+body.email)
         })
       } catch (error) {
         return next(error);

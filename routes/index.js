@@ -55,10 +55,6 @@ router.post("/verify", function (req, res, next) {
   }
 });
 
-router.get("/upload-image"),
-  (req, res, next) => {
-    res.render("upload-image.ejs");
-  };
 
 module.exports = router;
 
